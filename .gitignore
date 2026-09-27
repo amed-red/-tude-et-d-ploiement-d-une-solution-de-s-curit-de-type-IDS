@@ -1,0 +1,25 @@
+# Fichiers générés par TeX / latexmk
+*.aux
+*.log
+*.toc
+*.lof
+*.lot
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.dvi
+*.ps
+_minted-*/
+build/
+.DS_Store
+# Le PDF livré peut être conservé séparément de la branche source.
+main.pdf

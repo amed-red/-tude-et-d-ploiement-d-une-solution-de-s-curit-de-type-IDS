@@ -1,0 +1,13 @@
+\section{Analyse des résultats}
+\subsection{Comparaison des logiciels IDS}
+Les tests montrent que Snort et Suricata détectent des activités réseau courantes (ICMP, scans Nmap, flood) si les règles et la capture sont bien configurées. Snort est présenté comme généralement plus simple à déployer et moins consommateur de ressources, ce qui convient aux environnements modestes. Suricata est davantage orienté vers l'analyse, avec des journaux plus riches et structurés facilitant l'exploitation et l'interprétation des alertes. Ces appréciations restent qualitatives : le rapport ne fournit pas de mesures chiffrées de consommation, de débit ou de taux de détection.
+
+\subsection{Justification du choix selon le contexte}
+Pour une petite infrastructure ou des ressources limitées, Snort est un choix pertinent en raison de sa légèreté et de sa simplicité. Pour un besoin de visibilité et d'analyse approfondie des alertes, Suricata est préférable grâce à ses sorties détaillées et à une corrélation plus facile. Dans une logique SOC ou d'investigation, Suricata offre un avantage en matière d'exploitation des résultats.
+
+\section{Conclusion générale}
+Ce projet a permis de déployer et de tester Snort et Suricata sur un réseau afin d'évaluer leur capacité à détecter différents types d'attaques, comme les scans Nmap et les floods ICMP. Les tests ont montré que les deux solutions détectent les activités suspectes lorsque les règles et la capture sont correctement configurées.
+
+Snort se distingue dans l'analyse du rapport par sa simplicité d'installation et sa légèreté, adaptées aux petites infrastructures ou aux environnements limités. Suricata, grâce à son multithreading et à ses journaux détaillés, facilite l'analyse, la corrélation des alertes et l'exploitation des résultats dans un contexte SOC ou d'investigation. L'étude comparative met en évidence que le choix d'un IDS dépend du besoin opérationnel, de la volumétrie du réseau et du niveau de surveillance souhaité. L'intégration de ces outils renforce la visibilité réseau et offre un cadre pratique pour la détection des intrusions et la formation aux bonnes pratiques de cybersécurité.
+
+Cette expérimentation a aussi permis de comprendre les limites de chaque outil, notamment la consommation de ressources et la complexité des règles. Elle ouvre des perspectives d'optimisation des configurations, de mise en place de systèmes hybrides et d'intégration à d'autres solutions de sécurité pour une protection réseau plus complète.

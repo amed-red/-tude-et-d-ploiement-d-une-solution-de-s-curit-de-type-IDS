@@ -1,0 +1,35 @@
+\section{État de l'art des solutions IDS}
+\subsection{IDS et IPS}
+\subsubsection{IDS (Intrusion Detection System)}
+Un IDS est un système de sécurité chargé de surveiller le trafic réseau ou les activités d'un système afin de détecter des comportements suspects ou malveillants. Il analyse les données en temps réel ou a posteriori à l'aide de signatures ou de méthodes de détection d'anomalies. Lorsqu'une intrusion est détectée, l'IDS génère des alertes. Il n'intervient pas directement pour bloquer l'attaque.
+
+\subsubsection{IPS (Intrusion Prevention System)}
+Un IPS est un système de sécurité qui surveille le trafic réseau de manière active afin de détecter et prévenir les intrusions. Contrairement à l'IDS, il est capable de bloquer automatiquement les attaques en temps réel. Il agit directement sur le flux réseau en arrêtant, modifiant ou rejetant les paquets malveillants. L'IPS permet ainsi une protection proactive des systèmes.
+
+\subsection{Types de solutions IDS}
+\paragraph{IDS réseau (NIDS -- Network Intrusion Detection System).} Ils surveillent le trafic circulant sur le réseau afin de détecter les attaques et comportements anormaux. Ils sont placés à des points stratégiques du réseau (par exemple, passerelles ou routeurs). Ils permettent une vision globale du trafic.
+
+\paragraph{IDS hôte (HIDS -- Host Intrusion Detection System).} Ils sont installés directement sur une machine (serveur ou poste). Ils analysent les journaux, les fichiers système et les activités locales. Ils permettent une détection précise au niveau d'un hôte spécifique.
+
+\paragraph{IDS basé sur les signatures.} Ce type d'IDS compare le trafic observé à une base de signatures d'attaques connues. Il est efficace contre les attaques déjà répertoriées. En revanche, il est moins performant face aux attaques inconnues.
+
+\paragraph{IDS basé sur les anomalies.} Il détecte les intrusions en identifiant des écarts par rapport à un comportement normal du système. Il peut repérer des attaques nouvelles ou inconnues. Toutefois, il peut générer plus de fausses alertes.
+
+\paragraph{IDS hybrides.} Les IDS hybrides combinent plusieurs méthodes de détection, comme les IDS réseau et hôte ainsi que la détection par signatures et par anomalies. Cette approche permet d'améliorer la précision de la détection et de renforcer la sécurité globale du système.
+
+\subsection{Fonctionnalités des différents logiciels IDS}
+\begin{table}[htbp]\centering\small
+\caption{Comparaison fonctionnelle des solutions présentées dans le rapport}\label{tab:fonctionnalites}
+\begin{tabularx}{\linewidth}{@{}p{2.4cm}XXX@{}}\toprule
+Critère & Snort & Suricata & Prelude Hybrid IDS\\\midrule
+Type & IDS/IPS & IDS/IPS & Plateforme IDS hybride\\
+Rôle principal & Détection d'intrusions & Détection et prévention & Centralisation et corrélation d'alertes\\
+Mode de détection & Signatures & Signatures, analyse protocolaire et fichiers & Corrélation d'événements provenant de plusieurs IDS/IPS\\
+Multithreading & Non (mono-fil) & Oui (multi-fil) & Dépend des capteurs\\
+Complexité & Faible & Moyenne & Élevée\\\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Justification du choix des logiciels IDS}
+Snort et Suricata ont été choisis pour leur popularité, leur fiabilité et leur large communauté. Snort est simple, stable et efficace pour la détection par signatures, tandis que Suricata offre le multithreading et une meilleure performance sur les réseaux à haut débit. Leur combinaison permet de couvrir différents scénarios d'attaque et d'évaluer leurs performances de manière comparative. Les deux sont open source et facilement configurables, ce qui facilite leur déploiement pour des tests pratiques.
+\FloatBarrier

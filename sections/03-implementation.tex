@@ -1,0 +1,76 @@
+\section{Implémentation des IDS}
+\subsection{Outils de travail}
+\begin{itemize}
+\item \textbf{GNS3} : émulateur de réseau utilisé pour construire, configurer et tester l'architecture réseau.
+\item \textbf{Ubuntu} : distribution Linux utilisée pour exécuter Snort et Suricata.
+\item \textbf{Suricata} : moteur IDS/IPS capable d'analyser le trafic réseau en temps réel.
+\item \textbf{Snort} : IDS réseau générant des alertes à partir de règles prédéfinies.
+\item \textbf{Kali Linux} : distribution utilisée pour simuler les attaques.
+\end{itemize}
+
+\subsection{Topologie}
+L'architecture réseau comprend une VM Ubuntu hébergeant Snort et Suricata, une VM Kali Linux jouant le rôle de l'attaquant, un PC cible, deux routeurs (R1 et R2) et un switch. Une configuration SPAN du switch duplique les paquets du port source vers un port de destination (voir figure~\ref{fig:span}). Le schéma de la figure~\ref{fig:architecture} présente les équipements.
+\capture[0.73]{architecture-reseau}{Architecture réseau du laboratoire}{fig:architecture}
+\FloatBarrier
+
+\subsection{Installation et configuration des IDS}
+\subsubsection{Snort}
+L'installation et la configuration de Snort sur la VM Ubuntu se déroulent en quatre étapes.
+
+\textbf{Dépendances :}
+\begin{verbatim}
+sudo apt update
+sudo apt install -y build-essential libpcap-dev libpcre3-dev \
+  libdumbnet-dev bison flex zlib1g-dev
+\end{verbatim}
+
+\textbf{Installation :}
+\begin{verbatim}
+sudo apt install -y snort
+\end{verbatim}
+
+\textbf{Configuration :} le fichier \texttt{snort.conf} définit les paramètres globaux et le réseau à surveiller. Les règles de détection, notamment pour les scans de ports, sont ajoutées dans \texttt{local.rules}. Le paramètre \texttt{HOME\_NET} a été adapté au sous-réseau \texttt{192.168.1.0/24} (figure~\ref{fig:homenet}).
+
+\textbf{Lancement :}
+\begin{verbatim}
+sudo snort -c /etc/snort/snort.conf -i ens33
+\end{verbatim}
+
+\subsubsection{Suricata}
+L'installation de Suricata est illustrée à la figure~\ref{fig:install-suricata}. Le fichier \texttt{suricata.yaml} définit les paramètres globaux du moteur et son interface de capture. Les règles sont personnalisées dans \texttt{local.rules} (figure~\ref{fig:suricata-config}). Le lancement est illustré à la figure~\ref{fig:start-suricata}.
+\capture{installation-suricata}{Installation de Suricata sur Ubuntu}{fig:install-suricata}
+\capture{lancement-suricata}{Lancement de Suricata}{fig:start-suricata}
+\FloatBarrier
+
+\subsection{Attaques et détection avec Snort}
+\subsubsection{Règles de détection}
+Le fichier \texttt{local.rules} contient les règles personnalisées pour Snort. Il inclut des alertes pour le trafic ICMP et différents scans TCP (SYN, FIN, NULL et XMAS) réalisés avec Nmap, comme le montre la figure~\ref{fig:snort-rules}.
+\capture{regles-snort}{Règles personnalisées de Snort (local.rules)}{fig:snort-rules}
+
+\subsubsection{Attaque et détection ICMP flood}
+Une attaque ICMP flood est générée depuis Kali vers le PC victime afin de provoquer un envoi massif de paquets ICMP (figure~\ref{fig:snort-flood-command}). Les alertes montrent l'envoi répété et rapide de paquets depuis \texttt{192.168.2.2} vers la victime \texttt{192.168.1.11}. Snort identifie des requêtes ICMP de type scan/ping et une attaque ICMP flood, avec des alertes de priorité élevée (figure~\ref{fig:snort-flood-alert}).
+\capture{commande-flood-snort}{Commande de génération du flood ICMP}{fig:snort-flood-command}
+\capture{alertes-flood-snort}{Alertes ICMP affichées par Snort}{fig:snort-flood-alert}
+
+\subsubsection{Test et détection des scans Nmap}
+Des scans Nmap sont utilisés lors de la phase de reconnaissance pour identifier les ports ouverts, fermés ou filtrés et les services potentiellement actifs. Les scans SYN, XMAS, NULL et rapides reposent sur l'envoi de paquets TCP atypiques ou incomplets (figure~\ref{fig:nmap-commands}).
+
+Des alertes montrent une détection répétée de scans provenant de \texttt{192.168.2.2} à destination de \texttt{192.168.1.11}, sur plusieurs ports. Le rapport décrit notamment des alertes SYN, XMAS et des tentatives d'identification du système. Les captures figurent aux figures~\ref{fig:snort-syn} et~\ref{fig:snort-os}.
+\FloatBarrier
+
+\subsection{Attaques et détection avec Suricata}
+\subsubsection{Règles de détection}
+Les règles définies permettent de détecter les pings ICMP, des scans réseau Nmap et des tentatives de flood (figure~\ref{fig:suricata-rules}).
+\capture{regles-suricata}{Règles de détection de Suricata}{fig:suricata-rules}
+
+\subsubsection{Test de détection ICMP (ping)}
+Un test de ping a été réalisé entre les machines pour observer la détection et la réaction de Suricata (figure~\ref{fig:suricata-ping}).
+\capture{ping-suricata}{Détection d'un ping par Suricata}{fig:suricata-ping}
+
+\subsubsection{Attaque et détection ICMP flood}
+La commande utilisée pour générer le flood est présentée à la figure~\ref{fig:suricata-flood-command}. Les figures~\ref{fig:victim-flood} et~\ref{fig:suricata-flood-alert} montrent respectivement l'effet observé sur la machine cible et les alertes de Suricata.
+\capture{commande-flood-suricata}{Commande de test ICMP flood}{fig:suricata-flood-command}
+
+\subsubsection{Test et détection d'un scan Nmap}
+Un scan Nmap envoie des paquets réseau pour identifier les hôtes actifs ainsi que les ports et services ouverts. Le texte du rapport mentionne plusieurs ports ouverts (notamment 22, 80, 445 et 3389) dans un PC de laboratoire configuré pour les tests. La capture du scan est reproduite à la figure~\ref{fig:suricata-nmap}.
+\FloatBarrier

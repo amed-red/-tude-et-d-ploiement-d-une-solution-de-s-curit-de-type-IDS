@@ -1,0 +1,62 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[provide=*,french]{babel}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,margin=2.35cm]{geometry}
+\usepackage{graphicx,booktabs,tabularx,array,float,placeins}
+\usepackage{enumitem,caption,xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\definecolor{titrebleu}{HTML}{15769C}
+\titleformat{\section}{\Large\bfseries\color{titrebleu}}{\thesection.}{0.7em}{}
+\titleformat{\subsection}{\large\bfseries\color{titrebleu}}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.7em}{}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist{itemsep=0.2em,topsep=0.3em}
+\captionsetup{font=small,labelfont=bf}
+\graphicspath{{images/}}
+\hypersetup{pdftitle={Étude et déploiement d'une solution de sécurité de type IDS},pdfauthor={Taher Bazzi et Ahmed Chegueni}}
+
+% Un seul point de réglage pour les captures ; les fichiers peuvent être remplacés dans images/.
+\newcommand{\capture}[4][0.88]{%
+  \begin{figure}[htbp]\centering
+  \includegraphics[width=#1\linewidth,keepaspectratio]{#2}
+  \caption{#3}\label{#4}
+  \end{figure}}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+\includegraphics[width=10.5cm]{logos}\par
+\vspace{2.5cm}
+{\Large\bfseries Projet 4A\par}
+\vspace{0.6cm}
+{\LARGE\bfseries Étude et déploiement d'une solution de sécurité de type IDS\par}
+\vspace{2.3cm}
+{\large Réalisé par :\par}\vspace{0.3cm}
+{\large Taher Bazzi\\Ahmed Chegueni\par}
+\vspace{1.6cm}
+{\large Encadré par :\par}\vspace{0.3cm}
+{\large Prof. Nader MBAREK\par}
+\vfill
+{\large Janvier 2024\par}
+\end{titlepage}
+
+\hypersetup{pageanchor=true}
+\pagenumbering{arabic}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+
+\input{sections/01-introduction}
+\input{sections/02-etat-art}
+\input{sections/03-implementation}
+\input{sections/04-analyse-conclusion}
+\appendix
+\input{sections/05-annexes}
+\input{sections/06-bibliographie}
+\end{document}
