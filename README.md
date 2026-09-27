@@ -27,9 +27,7 @@ Le schéma et les captures de configuration sont reproduits dans le [rapport com
 
 Les captures montrent des détections sur les scénarios étudiés. **Aucun taux de détection, débit, mesure CPU/RAM ou banc d'essai quantitatif n'est fourni** : les appréciations de performance du texte sont qualitatives. Le rapport mentionne une « alerte automatisée » dans son introduction, sans en documenter une implémentation distincte ; elle n'est donc pas revendiquée ici comme livrable.
 
-## Limites de la source
 
-La couverture indique **janvier 2024**, alors que des captures affichent **janvier 2026**. Certaines captures utilisent également des sous-réseaux différents des adresses décrites dans le corps du texte. La capture du scan Nmap de Suricata ne suffit pas à confirmer tous les ports énumérés par le texte. Ces écarts figurent dans le rapport original et doivent être clarifiés avec les auteurs avant de présenter les expériences comme une seule campagne reproductible. La bibliographie originale ne fournit que des titres, sans URL ni données bibliographiques complètes.
 
 ## Compiler le rapport
 
