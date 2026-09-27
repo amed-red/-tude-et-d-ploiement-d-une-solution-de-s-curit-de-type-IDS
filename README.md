@@ -1,37 +1,91 @@
 # Étude et déploiement d'une solution IDS : Snort et Suricata
 
-Projet académique de 4A réalisé par **Taher Bazzi et Ahmed Chegueni**, encadré par **Prof. Nader Mbarek**. Le rapport étudie la surveillance d'un réseau de laboratoire et compare qualitativement deux IDS open source.
+Projet académique consacré à l'étude, au déploiement et à la comparaison de deux solutions open source de détection d'intrusions : **Snort** et **Suricata**.
 
-## Problème et objectif
+L'objectif est de mettre en place un environnement réseau virtualisé permettant de générer différents types de trafic et d'observer la capacité des IDS à identifier des activités potentiellement malveillantes.
 
-Un IDS doit voir le trafic pertinent, disposer de règles adaptées et produire des alertes exploitables. Le projet met en place un environnement GNS3 pour observer comment **Snort** et **Suricata** réagissent à des pings, à un envoi intensif de paquets ICMP et à des scans Nmap.
+## Objectifs
+
+- Comprendre le fonctionnement d'un système de détection d'intrusions (IDS).
+- Déployer et configurer Snort et Suricata.
+- Concevoir un environnement de test sous GNS3.
+- Écrire et configurer des règles de détection personnalisées.
+- Générer différents scénarios réseau depuis Kali Linux.
+- Observer et analyser les alertes générées.
+- Comparer qualitativement le comportement de Snort et Suricata.
 
 ## Architecture du laboratoire
 
-- **GNS3** héberge une topologie comprenant Kali Linux (attaquant), une VM Ubuntu (détecteur), un PC cible, deux routeurs et un switch.
-- Le switch utilise une configuration **SPAN** pour recopier le trafic vers le détecteur.
-- La configuration Snort adapte `HOME_NET` à `192.168.1.0/24` et ajoute des règles personnalisées dans `local.rules`.
-- Suricata est configuré avec `suricata.yaml` et un fichier de règles local.
+L'environnement de test repose sur **GNS3** et comprend notamment :
 
-Le schéma et les captures de configuration sont reproduits dans le [rapport compilé](rapport-IDS.pdf).
+- une machine **Kali Linux** utilisée pour générer le trafic de test ;
+- une machine **Ubuntu** hébergeant les solutions IDS ;
+- une machine cible ;
+- des équipements réseau virtualisés ;
+- une configuration **SPAN** permettant de transmettre une copie du trafic réseau vers le système de détection.
 
-## Réalisation et tests documentés
+![Architecture réseau](images/architecture-reseau.png)
 
-| Étape | Réalisation visible dans le rapport |
-| --- | --- |
-| Déploiement | Installation et lancement de Snort et Suricata sur Ubuntu ; configuration des fichiers de règles. |
-| Capture réseau | Topologie GNS3 et commande SPAN présentées en figures. |
-| Scénarios | Ping ICMP, ICMP flood et scans Nmap depuis Kali dans le laboratoire. |
-| Observation | Captures d'alertes Snort et Suricata et captures de commandes Nmap/ICMP. |
-| Analyse | Comparaison qualitative de la simplicité de Snort et du détail des journaux Suricata. |
+## Technologies utilisées
 
-Les captures montrent des détections sur les scénarios étudiés. **Aucun taux de détection, débit, mesure CPU/RAM ou banc d'essai quantitatif n'est fourni** : les appréciations de performance du texte sont qualitatives. Le rapport mentionne une « alerte automatisée » dans son introduction, sans en documenter une implémentation distincte ; elle n'est donc pas revendiquée ici comme livrable.
+- **Snort**
+- **Suricata**
+- **GNS3**
+- **Kali Linux**
+- **Ubuntu Linux**
+- **Nmap**
+- **Wireshark / analyse réseau**
+- **LaTeX**
 
+## Mise en œuvre
 
+### Snort
 
-## Compiler le rapport
+Snort est installé et configuré sur la machine de détection. La configuration comprend notamment la définition du réseau surveillé et l'utilisation de règles permettant de générer des alertes sur certains comportements observés dans le laboratoire.
 
-Sur **Overleaf** : importer le contenu du dossier, choisir `main.tex` comme document principal et **pdfLaTeX** comme compilateur. Compiler deux fois pour mettre à jour les références et la table des matières.
+Des règles personnalisées sont également utilisées afin d'adapter la détection aux scénarios étudiés.
+
+### Suricata
+
+Suricata est déployé dans le même environnement afin d'étudier son fonctionnement et de comparer les alertes obtenues avec celles de Snort.
+
+La configuration repose notamment sur `suricata.yaml` ainsi que sur des règles de détection locales.
+
+## Scénarios de test
+
+Plusieurs scénarios sont réalisés depuis Kali Linux afin de générer du trafic observable par les IDS :
+
+- trafic ICMP ;
+- envoi intensif de paquets ICMP ;
+- scans réseau avec Nmap ;
+- utilisation de règles personnalisées pour identifier certains comportements.
+
+Les alertes générées par Snort et Suricata sont ensuite observées et analysées.
+
+## Résultats
+
+Les expérimentations réalisées dans l'environnement GNS3 permettent d'observer la génération d'alertes par Snort et Suricata face aux différents scénarios étudiés.
+
+Le projet permet également de comparer leur configuration, leur fonctionnement et la manière dont les événements de sécurité sont présentés à l'administrateur.
+
+Les résultats détaillés et les captures des expérimentations sont disponibles dans le rapport.
+
+## Rapport
+
+Le rapport complet du projet est disponible ici :
+
+**[Consulter le rapport IDS](rapport-IDS.pdf)**
+
+Le document est également fourni sous forme de projet LaTeX afin de faciliter sa consultation et sa modification.
+
+## Compilation LaTeX
+
+Sur **Overleaf** :
+
+1. importer le contenu du dépôt ;
+2. sélectionner `main.tex` comme document principal ;
+3. utiliser **pdfLaTeX** ;
+4. compiler le document.
 
 En local avec une distribution TeX Live :
 
@@ -39,9 +93,7 @@ En local avec une distribution TeX Live :
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-Les chapitres se modifient dans `sections/`. Pour remplacer une capture, conserver son nom dans `images/` ou modifier l'argument correspondant de `\capture` dans la section concernée. Les légendes et renvois sont générés par LaTeX.
-
-## Structure
+## Structure du projet
 
 ```text
 .
@@ -53,12 +105,15 @@ Les chapitres se modifient dans `sections/`. Pour remplacer une capture, conserv
 │   ├── 04-analyse-conclusion.tex
 │   ├── 05-annexes.tex
 │   └── 06-bibliographie.tex
-├── images/               # Captures extraites du PDF source
-├── rapport-IDS.pdf        # Rendu final fourni avec cette archive
+├── images/
+├── rapport-IDS.pdf
 ├── README.md
 └── .gitignore
 ```
 
-## Publication
+## Auteurs
 
-Avant une mise en ligne publique, vérifier l'accord de l'autre auteur, les droits d'utilisation des logos et des captures, et les informations éventuellement sensibles visibles dans les terminaux. Une version publique peut omettre les captures concernées et le PDF d'origine, tout en conservant le code LaTeX et les figures autorisées. Aucune licence de réutilisation du contenu n'est présumée.
+**Ahmed Chegueni**  
+**Taher Bazzi**
+
+Projet académique réalisé dans le cadre d'une formation en Informatique et Réseaux.
